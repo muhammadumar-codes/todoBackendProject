@@ -1,60 +1,124 @@
-// users
+// =====================================
+// User Controller (Business Logic Layer)
+// =====================================
+
 const users = require('../data/users')
 
-// All Users
+// -------------------------------------
+// GET: All Users
+// -------------------------------------
 const allUsers = (req, res) => {
-  res.json({ isSuccess: true, data: users })
+  res.status(200).json({
+    success: true,
+    data: users,
+  })
 }
 
-// userDetails userByid
+// -------------------------------------
+// GET: Single User by ID
+// -------------------------------------
 const userById = (req, res) => {
   const id = Number(req.params.id)
 
   const user = users.find((item) => item.id === id)
 
+  // If user not found
   if (!user) {
-    return res.status(404).send({ isSuccess: false, message: 'user not Found' })
+    return res.status(404).json({
+      success: false,
+      message: 'User not found',
+    })
   }
 
-  res.json({ isSuccess: true, user })
+  res.status(200).json({
+    success: true,
+    data: user,
+  })
 }
 
-// creating Users
+// POST: Create New User
 
 const createUser = (req, res) => {
   const { name, brand } = req.body
 
-  // checking users name and brand
-
+  // Validation
   if (!name || !brand) {
-    return res.status(404).json({
-      isSuccess: false,
-      message: 'username and Email is Required ',
+    return res.status(400).json({
+      success: false,
+      message: 'Name and brand are required',
     })
   }
 
-  // now creating new users
   const newUser = {
     id: users.length + 1,
     name,
     brand,
   }
 
-  // adding user to the users arrays
   users.push(newUser)
 
-  // message after adding the usersto the data
-
-  res.status(200).json({
-    isSuccess: true,
-    message: 'user Successfully Created',
+  res.status(201).json({
+    success: true,
+    message: 'User created successfully',
     data: newUser,
   })
 }
 
-// Exporting
+// PUT: Update Existing User
+
+const updateUser = (req, res) => {
+  const id = Number(req.params.id)
+  const { name, brand } = req.body
+
+  const user = users.find((item) => item.id === id)
+
+  if (!user) {
+    return res.status(404).json({
+      success: false,
+      message: 'User not found',
+    })
+  }
+
+  // Update only if values are provided
+  user.name = name || user.name
+  user.brand = brand || user.brand
+
+  res.status(200).json({
+    success: true,
+    message: 'User updated successfully',
+    data: user,
+  })
+}
+
+// DELETE: Remove User
+
+const deleteUser = (req, res) => {
+  const id = Number(req.params.id)
+
+  const index = users.findIndex((u) => u.id === id)
+
+  if (index === -1) {
+    return res.status(404).json({
+      success: false,
+      message: 'User not found',
+    })
+  }
+
+  const deletedUser = users.splice(index, 1)
+
+  res.status(200).json({
+    success: true,
+    message: 'User deleted successfully',
+    data: deletedUser[0],
+  })
+}
+
+// Export Controllers
+
 module.exports = {
   allUsers,
   userById,
   createUser,
+  updateUser,
+  deleteUser,
 }

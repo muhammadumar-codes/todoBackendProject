@@ -1,20 +1,22 @@
 const express = require('express')
 const app = express()
 
-const Port = 5000
+// Server Port
+const PORT = 5000
 
 app.use(express.json())
 
-const userRoute = require('./routes/user.Routes')
+const userRoutes = require('./routes/user.Routes')
 
-app.use('/users', userRoute)
+app.use('/users', userRoutes)
 
-// Backend is Running
 app.get('/', (req, res) => {
-  res.json({ isSuccess: true, message: 'Backend is Running ' })
+  res.status(200).json({
+    success: true,
+    message: 'Backend is running 🚀',
+  })
 })
 
-// Listening
-app.listen(Port, () => {
-  console.log(`Server is Listening on The ${Port}`)
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`)
 })
