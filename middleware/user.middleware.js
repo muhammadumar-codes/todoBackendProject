@@ -1,5 +1,6 @@
 const authMiddleware = (req, res, next) => {
-  console.log('This authMiddleware Has Runned')
+  console.log('THE MIDDLE WARE IS RUNNED !')
+
   next()
 }
 

@@ -12,11 +12,12 @@ const {
 
 const { authMiddleware } = require('../middleware/user.middleware')
 
-// private route
+// Public Route
 
 router.get('/', allUsers)
 
-//  protected route
+// Protected Routes
+
 router.get('/:id', authMiddleware, userById)
 router.post('/', authMiddleware, createUser)
 router.put('/:id', authMiddleware, updateUser)

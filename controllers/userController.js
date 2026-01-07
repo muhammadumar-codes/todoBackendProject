@@ -1,12 +1,7 @@
-// =====================================
-// User Controller (Business Logic Layer)
-// =====================================
-
 const users = require('../data/users')
 
-// -------------------------------------
-// GET: All Users
-// -------------------------------------
+// ===*GET ALL USERS*===
+
 const allUsers = (req, res) => {
   res.status(200).json({
     success: true,
@@ -14,15 +9,13 @@ const allUsers = (req, res) => {
   })
 }
 
-// -------------------------------------
-// GET: Single User by ID
-// -------------------------------------
+// ===*SINGLE USER BY ID*===
+
 const userById = (req, res) => {
   const id = Number(req.params.id)
 
   const user = users.find((item) => item.id === id)
 
-  // If user not found
   if (!user) {
     return res.status(404).json({
       success: false,
@@ -36,7 +29,7 @@ const userById = (req, res) => {
   })
 }
 
-// POST: Create New User
+// ===*CREATE A NEW USER*===
 
 const createUser = (req, res) => {
   const { name, brand } = req.body
@@ -64,7 +57,7 @@ const createUser = (req, res) => {
   })
 }
 
-// PUT: Update Existing User
+// ===*UPDATE EXIST USER*===
 
 const updateUser = (req, res) => {
   const id = Number(req.params.id)
@@ -79,7 +72,8 @@ const updateUser = (req, res) => {
     })
   }
 
-  // Update only if values are provided
+  // ===*UPDATE ONLY IF VALUE IS PROVIDED*===
+
   user.name = name || user.name
   user.brand = brand || user.brand
 
@@ -90,7 +84,7 @@ const updateUser = (req, res) => {
   })
 }
 
-// DELETE: Remove User
+// ===*REMVOE USER*===
 
 const deleteUser = (req, res) => {
   const id = Number(req.params.id)
@@ -113,7 +107,21 @@ const deleteUser = (req, res) => {
   })
 }
 
-// Export Controllers
+// ===*REGISTER USER*===
+
+const registerUser = async (req, res) => {
+  try {
+    const { name, email, password } = req.body
+
+    if (!name || !email || !password) {
+      res.status(400).json({
+        isSuccess: false,
+      })
+    }
+  } catch (error) {}
+}
+
+// ===*EXPORT CONTROLERS*===
 
 module.exports = {
   allUsers,
@@ -121,4 +129,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  registerUser,
 }
