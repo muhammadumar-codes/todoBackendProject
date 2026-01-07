@@ -25,4 +25,9 @@ const users = [
   { id: 20, name: 'Breitling Superocean', brand: 'Breitling' },
 ]
 
-module.exports = users
+const registerUsers = []
+
+module.exports = {
+  registerUsers,
+  users,
+}

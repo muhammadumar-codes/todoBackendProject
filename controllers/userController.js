@@ -1,4 +1,6 @@
-const users = require('../data/users')
+const { users, registerUsers } = require('../data/users')
+
+const bcrypt = require('bcrypt')
 
 // ===*GET ALL USERS*===
 
@@ -109,16 +111,65 @@ const deleteUser = (req, res) => {
 
 // ===*REGISTER USER*===
 
-const registerUser = async (req, res) => {
+const registrationForm = async (req, res) => {
   try {
+    // ===*NAME , EMAIL ,PASSWORD FROM THE CLIENT REQUEST*===
+
     const { name, email, password } = req.body
 
+    // ===*CHECK VALIDATION ON USERS ON NAME EMAIL PASSWORD*===
+
     if (!name || !email || !password) {
-      res.status(400).json({
+      return res.status(400).json({
         isSuccess: false,
+        message: 'All fields are Required ! ',
       })
     }
-  } catch (error) {}
+
+    // ===*CHECK THE EXIST USER*===
+
+    const foundExistUser = registerUsers.find((item) => item.email === email)
+
+    if (foundExistUser) {
+      return res.status(409).json({
+        isSuccess: false,
+        message: 'User Already Exist',
+      })
+    }
+
+    // ===*HASHED THE PASSWORD HERE*===
+
+    const hashPassword = await bcrypt.hash(password, 10)
+
+    // ===*NEW USERS*===
+
+    const newUser = {
+      id: users.length + 1,
+      name,
+      email,
+      hashPassword,
+    }
+
+    registerUsers.push(newUser)
+
+    res.status(201).json({
+      isSuccess: true,
+      message: 'User Created Successfully 🙈',
+      data: {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        password: newUser.hashPassword,
+      },
+    })
+
+    // ===*ERROR *===
+  } catch (error) {
+    res.status(500).json({
+      isSuccess: false,
+      message: 'Server Error 🥹',
+    })
+  }
 }
 
 // ===*EXPORT CONTROLERS*===
@@ -129,5 +180,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
-  registerUser,
+  registrationForm,
 }
