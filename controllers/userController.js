@@ -113,11 +113,7 @@ const deleteUser = (req, res) => {
 
 const registrationForm = async (req, res) => {
   try {
-    // ===*NAME , EMAIL ,PASSWORD FROM THE CLIENT REQUEST*===
-
     const { name, email, password } = req.body
-
-    // ===*CHECK VALIDATION ON USERS ON NAME EMAIL PASSWORD*===
 
     if (!name || !email || !password) {
       return res.status(400).json({
@@ -172,6 +168,19 @@ const registrationForm = async (req, res) => {
   }
 }
 
+// ===*LOGIN USER *===
+
+const loginForm = (req, res) => {
+  const { email, password } = req.body
+
+  if (!email || !password) {
+    res.status(404).json({
+      isSuccess: false,
+      message: 'Email And  Password is Required',
+    })
+  }
+}
+
 // ===*EXPORT CONTROLERS*===
 
 module.exports = {
@@ -181,4 +190,5 @@ module.exports = {
   updateUser,
   deleteUser,
   registrationForm,
+  loginForm,
 }
