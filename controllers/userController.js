@@ -1,4 +1,8 @@
-const { users, registerUsers } = require('../data/users')
+const bcrpytjs = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
+// ===*Users And Registers From The Data File *===
+const { users, registerUsers, loginUser } = require('../data/users')
 
 const bcrypt = require('bcrypt')
 
@@ -36,7 +40,7 @@ const userById = (req, res) => {
 const createUser = (req, res) => {
   const { name, brand } = req.body
 
-  // Validation
+  // ===*Validation*===
   if (!name || !brand) {
     return res.status(400).json({
       success: false,
@@ -109,8 +113,7 @@ const deleteUser = (req, res) => {
   })
 }
 
-// ===*REGISTER USER*===
-
+//===========================*REGISTER USERS *=========================
 const registrationForm = async (req, res) => {
   try {
     const { name, email, password } = req.body
@@ -168,15 +171,52 @@ const registrationForm = async (req, res) => {
   }
 }
 
-// ===*LOGIN USER *===
+//===========================*LOGIN USER *=========================
+const loginForm = async (req, res) => {
+  try {
+    const { email, password } = req.body
 
-const loginForm = (req, res) => {
-  const { email, password } = req.body
+    if (!email || !password) {
+      return res.status(400).json({
+        isSuccess: false,
+        message: 'Email and Password are required',
+      })
+    }
 
-  if (!email || !password) {
-    res.status(404).json({
+    // find registered user
+    const foundUser = registerUsers.find((item) => item.email === email)
+
+    if (!foundUser) {
+      return res.status(404).json({
+        isSuccess: false,
+        message: 'User not found',
+      })
+    }
+
+    // compare password
+    const isMatched = await bcrpytjs.compare(password, foundUser.hashPassword)
+
+    if (!isMatched) {
+      return res.status(401).json({
+        isSuccess: false,
+        message: 'Invalid password',
+      })
+    }
+
+    // success
+    res.status(200).json({
+      isSuccess: true,
+      message: 'Login successful',
+      user: {
+        id: foundUser.id,
+        name: foundUser.name,
+        email: foundUser.email,
+      },
+    })
+  } catch (error) {
+    res.status(500).json({
       isSuccess: false,
-      message: 'Email And  Password is Required',
+      message: 'Server error',
     })
   }
 }
