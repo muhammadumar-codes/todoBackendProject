@@ -30,8 +30,6 @@ router.get('/', allUsers)
 // GET USER BY ID
 router.get('/:id', authMiddleware, userById)
 
-console.log(authMiddleware, userById)
-
 // CREATE USER
 router.post('/', authMiddleware, createUser)
 

@@ -201,6 +201,16 @@ const loginForm = async (req, res) => {
       })
     }
 
+    //  JWT GENERATE
+    const token = jwt.sign(
+      {
+        id: foundUser.id,
+        email: foundUser.email,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    )
+
     // success
     res.status(200).json({
       isSuccess: true,
@@ -209,6 +219,7 @@ const loginForm = async (req, res) => {
         id: foundUser.id,
         name: foundUser.name,
         email: foundUser.email,
+        token,
       },
     })
   } catch (error) {
