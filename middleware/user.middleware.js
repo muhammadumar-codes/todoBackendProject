@@ -1,7 +1,25 @@
-const authMiddleware = (req, res, next) => {
-  console.log('THE MIDDLE WARE IS RUNNED !')
+const jwt = require('jsonwebtoken')
 
-  next()
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization
+
+  if (!token) {
+    return res.status(401).json({
+      success: false,
+      message: 'Token required',
+    })
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    req.user = decoded
+    next()
+  } catch (error) {
+    res.status(401).json({
+      success: false,
+      message: 'Invalid or expired token',
+    })
+  }
 }
 
 module.exports = authMiddleware
