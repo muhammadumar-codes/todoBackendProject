@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 // ===*Users And Registers From The Data File *===
-const { users, registerUsers, loginUser } = require('../data/users')
+const { users, registerUsers } = require('../data/users')
 
 // ===*GET ALL USERS*===
 

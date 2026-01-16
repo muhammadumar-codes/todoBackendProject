@@ -27,10 +27,7 @@ const users = [
 
 const registerUsers = []
 
-const loginUser = []
-
 module.exports = {
   registerUsers,
   users,
-  loginUser,
 }
