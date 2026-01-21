@@ -181,7 +181,7 @@ const loginForm = async (req, res) => {
       })
     }
 
-    // find registered user
+    // ===*HERE TO FIND THE REGISTERED USER*===
     const foundUser = registerUsers.find((item) => item.email === email)
 
     if (!foundUser) {
@@ -191,7 +191,7 @@ const loginForm = async (req, res) => {
       })
     }
 
-    // compare password
+    // ===*COMPARE THE PASSWORD*===
     const isMatched = await bcrypt.compare(password, foundUser.hashPassword)
 
     if (!isMatched) {
@@ -201,17 +201,17 @@ const loginForm = async (req, res) => {
       })
     }
 
-    //  JWT GENERATE
+    // ===*JWT GENERATE*===
     const token = jwt.sign(
       {
         id: foundUser.id,
         email: foundUser.email,
       },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { expiresIn: '1h' },
     )
 
-    // success
+    // ===*SUCCESS*===
     res.status(200).json({
       isSuccess: true,
       message: 'Login successful',
