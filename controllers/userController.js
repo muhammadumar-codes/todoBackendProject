@@ -182,9 +182,9 @@ const loginForm = async (req, res) => {
     }
 
     // ===*HERE TO FIND THE REGISTERED USER*===
-    const foundUser = registerUsers.find((item) => item.email === email)
+    const user = registerUsers.find((item) => item.email === email)
 
-    if (!foundUser) {
+    if (!user) {
       return res.status(404).json({
         isSuccess: false,
         message: 'User not found',
@@ -192,7 +192,7 @@ const loginForm = async (req, res) => {
     }
 
     // ===*COMPARE THE PASSWORD*===
-    const isMatched = await bcrypt.compare(password, foundUser.hashPassword)
+    const isMatched = await bcrypt.compare(password, user.hashPassword)
 
     if (!isMatched) {
       return res.status(401).json({
@@ -204,8 +204,8 @@ const loginForm = async (req, res) => {
     // ===*JWT GENERATE*===
     const token = jwt.sign(
       {
-        id: foundUser.id,
-        email: foundUser.email,
+        id: user.id,
+        email: user.email,
       },
       process.env.JWT_SECRET,
       { expiresIn: '1h' },
@@ -216,9 +216,9 @@ const loginForm = async (req, res) => {
       isSuccess: true,
       message: 'Login successful',
       user: {
-        id: foundUser.id,
-        name: foundUser.name,
-        email: foundUser.email,
+        id: user.id,
+        name: user.name,
+        email: user.email,
         token,
       },
     })
