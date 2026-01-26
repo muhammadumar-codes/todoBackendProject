@@ -88,7 +88,7 @@ const updateUser = (req, res) => {
   })
 }
 
-// ===*REMVOE USER*===
+// ===*DELETE  USER*===
 
 const deleteUser = (req, res) => {
   const id = Number(req.params.id)
@@ -171,6 +171,7 @@ const registrationForm = async (req, res) => {
 //===========================*LOGIN USER *=========================
 
 const loginForm = async (req, res) => {
+  console.log(registerUsers)
   try {
     const { email, password } = req.body
 
@@ -182,7 +183,10 @@ const loginForm = async (req, res) => {
     }
 
     // ===*HERE TO FIND THE REGISTERED USER*===
+
     const user = registerUsers.find((item) => item.email === email)
+
+    console.log(user)
 
     if (!user) {
       return res.status(404).json({
