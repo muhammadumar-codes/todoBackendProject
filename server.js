@@ -1,16 +1,33 @@
+// ===*IMPORT ENV VARIABLES*===
 require('dotenv').config()
 
+// ===*IMPORT PACKAGES*===
 const express = require('express')
-const app = express()
 
-const PORT = 5000
+// ===*IMPORT DATABASE CONNECTION*===
+const connectDB = require('./config/db')
 
-app.use(express.json())
-
+// ===*IMPORT ROUTES*===
 const userRoutes = require('./routes/user.Routes')
 
+// ===*INITIALIZE EXPRESS APP*===
+const app = express()
+
+// ===*DEFINE PORT*===
+const PORT = process.env.PORT || 5000
+
+// ===*MIDDLEWARE*===
+// Parse incoming JSON data
+app.use(express.json())
+
+// ===*ROUTES*===
+// User routes
 app.use('/', userRoutes)
 
+// ===*CONNECT DATABASE*===
+connectDB()
+
+// ===*START SERVER*===
 app.listen(PORT, () => {
-  console.log(`Server is listening on port  ${PORT} ❤️`)
+  console.log(` Server running on port ${PORT}`)
 })
