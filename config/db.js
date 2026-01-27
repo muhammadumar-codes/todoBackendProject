@@ -1,13 +1,22 @@
+// ===*IMPORT MONGOOSE*===
 const mongoose = require('mongoose')
 
+// ===*DATABASE CONNECTION FUNCTION*===
 const connectDB = async () => {
   try {
+    // ===*CONNECT TO MONGODB USING ENV VARIABLE*===
     await mongoose.connect(process.env.MONGO_URI)
-    console.log('MongoDB Connected Successfully ')
+
+    console.log('MongoDB Connected Successfully')
   } catch (error) {
-    console.error('MongoDB Connection Failed ')
+    // ===*ERROR HANDLING*===
+    console.error('MongoDB Connection Failed')
+    console.error(error.message)
+
+    // ===*STOP SERVER IF DB FAILS*===
     process.exit(1)
   }
 }
 
+// ===*EXPORT DATABASE FUNCTION*===
 module.exports = connectDB
