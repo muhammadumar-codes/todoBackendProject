@@ -5,7 +5,7 @@ require('dotenv').config()
 const express = require('express')
 
 // ===*IMPORT DATABASE CONNECTION*===
-const connectDB = require('./config/db')
+const connectDB = require('./config/db.js')
 
 // ===*IMPORT ROUTES*===
 const userRoutes = require('./routes/user.Routes')

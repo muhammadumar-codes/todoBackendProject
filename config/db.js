@@ -2,10 +2,12 @@
 const mongoose = require('mongoose')
 
 // ===*DATABASE CONNECTION FUNCTION*===
+const DBURL = process.env.MONGO_URI
+
 const connectDB = async () => {
   try {
     // ===*CONNECT TO MONGODB USING ENV VARIABLE*===
-    await mongoose.connect(process.env.MONGO_URI)
+    await mongoose.connect(DBURL)
 
     console.log('MongoDB Connected Successfully')
   } catch (error) {
