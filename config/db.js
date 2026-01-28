@@ -2,7 +2,8 @@
 const mongoose = require('mongoose')
 
 // ===*DATABASE CONNECTION FUNCTION*===
-const DBURL = process.env.MONGO_URI
+const DBURL =
+  'mongodb+srv://admin:umar@cluster0.kysnxyj.mongodb.net/?appName=Cluster0'
 
 const connectDB = async () => {
   try {
