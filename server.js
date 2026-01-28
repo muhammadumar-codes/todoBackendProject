@@ -28,6 +28,10 @@ connectDB()
 // ===*CONNECT DATABASE*===
 
 // ===*START SERVER*===
-app.listen(PORT, () => {
-  console.log(` Server running on port ${PORT}`)
-})
+// it not works in prod with vercel
+// app.listen(PORT, () => {
+//   console.log(` Server running on port ${PORT}`)
+// })
+
+// this is for prod deploy in vercel
+module.exports = app;
