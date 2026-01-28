@@ -2,7 +2,7 @@
 const mongoose = require('mongoose')
 
 // ===*DATABASE CONNECTION FUNCTION*===
-const DBURL = process.env.MONGO_URL
+const DBURL = process.env.MONGO_URI
 
 const connectDB = async () => {
   try {
