@@ -23,9 +23,9 @@ app.use(express.json())
 // ===*ROUTES*===
 // User routes
 app.use('/', userRoutes)
+connectDB()
 
 // ===*CONNECT DATABASE*===
-connectDB()
 
 // ===*START SERVER*===
 app.listen(PORT, () => {
