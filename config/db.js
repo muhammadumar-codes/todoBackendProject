@@ -1,25 +1,15 @@
-// ===*IMPORT MONGOOSE*===
 const mongoose = require('mongoose')
 
-// ===*DATABASE CONNECTION FUNCTION*===
-const DBURL =
-  'mongodb+srv://admin:umar@cluster0.kysnxyj.mongodb.net/?appName=Cluster0'
-
-const connectDB = async () => {
+async function connectDB() {
   try {
-    // ===*CONNECT TO MONGODB USING ENV VARIABLE*===
-
-    await mongoose.connect(DBURL)
-
-    console.log('MongoDB Connected Successfully')
+    const conn = await mongoose.connect(
+      'mongodb+srv://admin:umarkhan@cluster0.jooac0p.mongodb.net/?appName=Cluster0',
+    )
+    console.log(`MongoDB Connected: ${conn.connection.host}`)
   } catch (error) {
-    // ===*ERROR HANDLING*===
-    console.error(`MongoDB Connection Failed ${error.message}`)
-
-    // ===*STOP SERVER IF DB FAILS*===
+    console.error('MongoDB connection failed:', error.message)
     process.exit(1)
   }
 }
 
-// ===*EXPORT DATABASE FUNCTION*===
 module.exports = connectDB
