@@ -1,31 +1,22 @@
-// ===*IMPORT ENV VARIABLES*===
-require('dotenv').config()
+const express = require('express');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const userRoutes = require('./routes/userRoutes');
+const dosRoutes = require('./routes/dosRoutes');
+const  connectDB=require("./config/db")
 
-// ===*IMPORT PACKAGES*===
-const express = require('express')
+dotenv.config();
 
-// ===*IMPORT DATABASE CONNECTION*===
-const connectDB = require('./config/db.js')
+const app = express();
+app.use(express.json());
 
-// ===*IMPORT ROUTES*===
-const userRoutes = require('./routes/user.Routes')
-
-// ===*INITIALIZE EXPRESS APP*===
-const app = express()
-
-// ===*DEFINE PORT*===
-const PORT = process.env.PORT || 5000
-
-// ===*MIDDLEWARE*===
-app.use(express.json())
-
-// ===*CONNECT DATABASE*===
+// CONNECT MONGO
 connectDB()
 
-// ===*ROUTES*===
-app.use('/', userRoutes)
+// ROUTES
+app.use('/api/users', userRoutes);
+app.use('/api/dos', dosRoutes);
 
-// ===*START SERVER*===
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} 🚀`)
-})
+// SERVER
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT} 🚀`));

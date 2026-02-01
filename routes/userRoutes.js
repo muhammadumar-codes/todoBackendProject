@@ -6,9 +6,10 @@ const {
   userById,
   createUser,
   updateUser,
-  loginForm,
+loginUser,
+registerUser,
   deleteUser,
-  registrationForm,
+  
 } = require('../controllers/userController')
 
 //===========================*MIDDLE WARE*=========================
@@ -17,10 +18,10 @@ const authMiddleware = require('../middleware/user.middleware')
 //===========================*PUBLIC ROUTE*=========================
 
 // REGISTER
-router.post('/register', registrationForm)
+router.post('/register', registerUser)
 
 // LOGIN
-router.post('/login', loginForm)
+router.post('/login', loginUser)
 
 // GET ALL USERS
 router.get('/', allUsers)
